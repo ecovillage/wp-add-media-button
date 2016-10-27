@@ -31,8 +31,8 @@ jQuery(function($) {
 
         var self = this; // Needed to retrieve our variable in the anonymous function below
         this.window.on('select', function() {
-                wp.media.editor.insert(evalselection(self.window.state().get('selection').first().toJSON(),'alignleft')); 
-    		// "alignleft|aligncenter|alignright"
+                wp.media.editor.insert(evalselection(self.window.state().get('selection').first().toJSON(),"alignleft")); \
+		// "alignleft|aligncenter|alignright"
             });
         }
 
@@ -51,8 +51,8 @@ jQuery(function($) {
 
         var self = this; // Needed to retrieve our variable in the anonymous function below
         this.window.on('select', function() {
-                wp.media.editor.insert(evalselection(self.window.state().get('selection').first().toJSON(),'alignright')); 
-    		// "alignleft|aligncenter|alignright"
+                wp.media.editor.insert(evalselection(self.window.state().get('selection').first().toJSON(),"alignright")); \
+		// "alignleft|aligncenter|alignright"
             });
         }
 
