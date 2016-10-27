@@ -1,2 +1,2 @@
-#Add Media Button Plugin for WrdPress#
+#Add Media Button Plugin for WordPress
 
