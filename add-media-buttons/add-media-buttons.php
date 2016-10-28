@@ -1,14 +1,14 @@
 <?php
 /**
  * @package Add_Media_Buttons
- * @version 0.3
+ * @version 0.5
  */
 /*
 Plugin Name: Add Media Buttons
 Plugin URI: http://www.siebenlinden.org
 Description: This plugin adds two 'add media'-buttons (add image left/right) to the WordPress editor. It's purpose is the support of the authors of the Sieben Linden website with a convenient tool to insert custom style images into posts and articles.  
 Author: Holger Nassenstein, Felix Wolfsteller
-Version: 0.3
+Version: 0.5
 License: GPL2+
 */
 
