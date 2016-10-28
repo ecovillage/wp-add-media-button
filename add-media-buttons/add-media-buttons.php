@@ -49,5 +49,4 @@ function add_media_buttons_setup_menu(){
 function test_init(){
         echo "<h1>Hello World!</h1>";
 }
-?>
 
