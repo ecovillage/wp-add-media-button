@@ -20,7 +20,7 @@ License: GPL2+
 
 // Two additional add-media buttons for Tiny MCE:
 
-add_action('media_buttons','add_my_media_buttons',15);
+add_action('media_buttons', 'add_my_media_buttons', 15);
 
 function add_my_media_buttons(){
     echo '<a href="#" id="insert-my-media-left" class="button">Bild links einfügen</a>';
@@ -30,10 +30,10 @@ function add_my_media_buttons(){
 
 // Hook javascript functions to the onclick event of the buttons above 
 
-add_action('wp_enqueue_media','include_media_button_js_file');
+add_action('wp_enqueue_media', 'include_media_button_js_file');
 
 function include_media_button_js_file(){
-    wp_enqueue_script('media_button',plugins_url( 'js/media_button.js', __FILE__ ),array('jquery'),'1.0',true);
+    wp_enqueue_script('media_button', plugins_url( 'js/media_button.js',  __FILE__ ), array('jquery'), '1.0', true);
 }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -41,11 +41,11 @@ function include_media_button_js_file(){
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 add_action('admin_menu', 'add_media_buttons_setup_menu');
- 
+
 function add_media_buttons_setup_menu(){
         add_menu_page( 'Add Media Buttons Page', 'Add Media Buttons', 'manage_options', 'add-media-buttons', 'test_init' );
 }
- 
+
 function test_init(){
         echo "<h1>Hello World!</h1>";
 }
