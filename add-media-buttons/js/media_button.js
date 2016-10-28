@@ -36,10 +36,11 @@ jQuery(function($) {
                 button: {text: 'Bild links einfügen'}
             });
 
-        var self = this; // Needed to retrieve our variable in the anonymous function below
+        // Need variable for anonymous function.
+        var media_selection_window = this.window;
         this.window.on('select', function() {
-                wp.media.editor.insert(evalselection(self.window.state().get('selection').first().toJSON(),'alignleft')); 
-    		// "alignleft|aligncenter|alignright"
+                // "alignleft|aligncenter|alignright"
+                wp.media.editor.insert(evalselection(media_selection_window.state().get('selection').first().toJSON(), 'alignleft'));
             });
         }
 
@@ -56,10 +57,11 @@ jQuery(function($) {
                 button: {text: 'Bild rechts einfügen'}
             });
 
-        var self = this; // Needed to retrieve our variable in the anonymous function below
+        // Need variable for anonymous function.
+        var media_selection_window = this.window;
         this.window.on('select', function() {
-                wp.media.editor.insert(evalselection(self.window.state().get('selection').first().toJSON(),'alignright')); 
-    		// "alignleft|aligncenter|alignright"
+                // "alignleft|aligncenter|alignright"
+                wp.media.editor.insert(evalselection(media_selection_window.state().get('selection').first().toJSON(), 'alignright'));
             });
         }
 
