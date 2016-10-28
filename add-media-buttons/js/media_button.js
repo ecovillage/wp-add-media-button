@@ -1,3 +1,9 @@
+/*
+  Callback, receives selected media, returns html code representing clickable
+  media.
+  selected - media (usually image) reference.
+  align    - css class used for the img tag.
+*/
 function evalselection(selected,align) {
 	var size = "medium";  			// the one and only parameter: "thumbnail | medium | medium_large | large | full"
 	var alt = selected.alt;
@@ -15,6 +21,7 @@ function evalselection(selected,align) {
 }
 
 jQuery(function($) {
+    // Register click handlers for new buttons.
     $(document).ready(function(){
            $('#insert-my-media-left').click(open_media_window_left);
            $('#insert-my-media-right').click(open_media_window_right);
