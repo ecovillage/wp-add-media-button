@@ -40,13 +40,125 @@ function include_media_button_js_file(){
 // admin menu
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+/** Set Defaults **/
+add_option( 'add_media_buttons_field_1', '1' );
+
+/** Add Settings Page **/
+function add_media_buttons_setup_menu() {
+ 
+    add_options_page(
+    /*1*/   'Add Media Buttons Settings',
+    /*2*/   'Add Media Buttons',
+    /*3*/   'manage_options',
+    /*4*/   'add_media_buttons_settings',
+    /*5*/   'add_media_buttons_settings_page'
+    );
+ 
+}
 add_action('admin_menu', 'add_media_buttons_setup_menu');
+ 
+/** Settings Page Content **/
+function add_media_buttons_settings_page() {
+ 
+    ?>
+ 
+    <div class="wrap">
+        <?php 
+         
+        // Uncomment if this screen isn't added with add_options_page() 
+        // settings_errors(); 
+         
+        ?>
+ 
+        <h2>Add Media Buttons</h2>
+        <p>Größe der Verschaubilder der Buttons 'Bild (rechts/links) hinzufügen' in TinyMCE</p>
+ 
+        <form method="post" action="options.php">
+            <?php
+ 
+            // Output the settings sections.
+            do_settings_sections( 'add_media_buttons_settings' );
+ 
+            // Output the hidden fields, nonce, etc.
+            settings_fields( 'add_media_buttons_settings_group' );
+ 
+            // Submit button.
+            submit_button();
+ 
+            ?>
+        </form>
+    </div>
+ 
+    <?php
+}
+/** Settings Initialization **/
+function add_media_buttons_settings_init() {
+ 
+    
+   /** Section 1 **/
+    add_settings_section(
+    /*1*/   'add_media_buttons_settings_section_1',
+    /*2*/   '',
+    /*3*/   'add_media_buttons_settings_section_1_callback',
+    /*4*/   'add_media_buttons_settings'
+    );
+     
+    // Field 1.
+    add_settings_field(
+    /*1*/   'add_media_buttons_field_1',
+    /*2*/   '',
+    /*3*/   'add_media_buttons_field_1_input',
+    /*4*/   'add_media_buttons_settings',
+    /*5*/   'add_media_buttons_settings_section_1'
+    );
+ 
+    // Register this field with our settings group.
+    register_setting( 'add_media_buttons_settings_group', 'add_media_buttons_field_1' );  
+     
+}
+add_action( 'admin_init', 'add_media_buttons_settings_init' );
+ 
 
-function add_media_buttons_setup_menu(){
-        add_menu_page( 'Add Media Buttons Page', 'Add Media Buttons', 'manage_options', 'add-media-buttons', 'test_init' );
+function add_media_buttons_settings_section_1_callback() {
+ 
+//    echo( 'An explanation of this section.' );
 }
 
-function test_init(){
-        echo "<h1>Hello World!</h1>";
+ 
+
+/** Field 1 Input **/
+function add_media_buttons_field_1_input() {
+ 
+    // This example input will be a dropdown.
+    // Available options.
+    $options = array(
+	'1' => 'thumbnail',
+	'2' => 'medium',
+	'3' => 'medium_large',
+	'4' => 'large',
+	'5' => 'full',
+    );
+     
+    // Current setting.
+    $current = get_option( 'add_media_buttons_field_1' );
+     
+    // Build <select> element.
+    $html = '<select id="add_media_buttons_field_1" name="add_media_buttons_field_1">';
+ 
+    foreach ( $options as $value => $text )
+    {
+        $html .= '<option value="'. $value .'"';
+ 
+        // We make sure the current options selected.
+        if ( $value == $current ) $html .= ' selected="selected"';
+ 
+        $html .= '>'. $text .'</option>';
+    }
+     
+    $html .= '</select>';
+ 
+    echo( $html );  
 }
+ 
+
 
