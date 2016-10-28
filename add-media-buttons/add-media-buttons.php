@@ -99,6 +99,7 @@ function add_media_buttons_settings_init() {
     add_settings_section(
     /*1*/   'add_media_buttons_settings_section_1',
     /*2*/   '',
+    // section title empty, 'cause there is just one section
     /*3*/   'add_media_buttons_settings_section_1_callback',
     /*4*/   'add_media_buttons_settings'
     );
@@ -107,6 +108,7 @@ function add_media_buttons_settings_init() {
     add_settings_field(
     /*1*/   'add_media_buttons_field_1',
     /*2*/   '',
+    // field title empty, 'cause there is just one field
     /*3*/   'add_media_buttons_field_1_input',
     /*4*/   'add_media_buttons_settings',
     /*5*/   'add_media_buttons_settings_section_1'
