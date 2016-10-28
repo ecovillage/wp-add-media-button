@@ -12,12 +12,12 @@ function evalselection(selected,align) {
 	    alt = alt.toUpperCase();
 	}
 
-	return('<a href="' + selected.url + '"><img src="' +
-	selected.sizes[size].url + '" alt="' + alt + '" width="' +
-	selected.sizes[size].width + '" height="' +
-	selected.sizes[size].height + '" class="' + align + ' size-' +
-	size + ' wp-image-' + selected.id + '" /></a>');
-	// console.log(JSON.stringify(selected));
+  return('<a href="' + selected.url + '"><img src="' +
+    selected.sizes[size].url + '" alt="' + alt + '" width="' +
+    selected.sizes[size].width + '" height="' +
+    selected.sizes[size].height + '" class="' + align + ' size-' +
+    size + ' wp-image-' + selected.id + '" /></a>');
+  // console.log(JSON.stringify(selected));
 }
 
 jQuery(function($) {
