@@ -4,13 +4,16 @@
   selected - media (usually image) reference.
   align    - css class used for the img tag.
 */
+
 function evalselection(selected,align) {
-	var size = "medium";  			// the one and only parameter: "thumbnail | medium | medium_large | large | full"
-	var alt = selected.alt;
-     	if (0 === alt.length){
-	    alt = selected.name;
-	    alt = alt.toUpperCase();
-	}
+  var options = new Array('thumbnail', 'medium', 'large', 'full');
+  var size = options[AddMediaButtonParams];
+  // the one and only parameter from registering php-script: AddMediaButtonParams
+  var alt = selected.alt;
+  if (0 === alt.length){
+    alt = selected.name;
+    alt = alt.toUpperCase();
+  }
 
   return('<a href="' + selected.url + '"><img src="' +
     selected.sizes[size].url + '" alt="' + alt + '" width="' +

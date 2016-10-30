@@ -1,40 +1,41 @@
 <?php
 /**
  * @package Add_Media_Buttons
- * @version 0.5
+ * @version 0.6
  */
 /*
 Plugin Name: Add Media Buttons
 Plugin URI: http://www.siebenlinden.org
 Description: This plugin adds two 'add media'-buttons (add image left/right) to the WordPress editor. It's purpose is the support of the authors of the Sieben Linden website with a convenient tool to insert custom style images into posts and articles.  
 Author: Holger Nassenstein, Felix Wolfsteller
-Version: 0.5
+Version: 0.6
 License: GPL2+
 */
 
-/*
- * TODO:
- 	* Parameter delivery php->js for thumbnail-size 
-*/
-
-
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Two additional add-media buttons for Tiny MCE:
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-add_action('media_buttons', 'add_my_media_buttons', 15);
 
 function add_my_media_buttons(){
     echo '<a href="#" id="insert-my-media-left" class="button">Bild links einfügen</a>';
     echo '<a href="#" id="insert-my-media-right" class="button">Bild rechts einfügen</a>';
 }
+add_action('media_buttons', 'add_my_media_buttons', 15);
 
 
 // Hook javascript functions to the onclick event of the buttons above 
 
-add_action('wp_enqueue_media', 'include_media_button_js_file');
 
 function include_media_button_js_file(){
-    wp_enqueue_script('media_button', plugins_url( 'js/media_button.js',  __FILE__ ), array('jquery'), '1.0', true);
+  wp_enqueue_script('media_button', plugins_url( 'js/media_button.js',  __FILE__ ), array('jquery'), '1.0', true);
+  $current = get_option( 'add_media_buttons_field_1' );
+  wp_localize_script( 'media_button', 'AddMediaButtonParams', $current );
 }
+add_action('wp_enqueue_media', 'include_media_button_js_file');
+
+
+
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // admin menu
@@ -83,7 +84,7 @@ function add_media_buttons_settings_page() {
             settings_fields( 'add_media_buttons_settings_group' );
  
             // Submit button.
-            submit_button();
+            submit_button('Einstellungen speichern');
  
             ?>
         </form>
@@ -130,37 +131,28 @@ function add_media_buttons_settings_section_1_callback() {
 
 /** Field 1 Input **/
 function add_media_buttons_field_1_input() {
- 
-    // This example input will be a dropdown.
-    // Available options.
-    $options = array(
-	'1' => 'thumbnail',
-	'2' => 'medium',
-	'3' => 'medium_large',
-	'4' => 'large',
-	'5' => 'full',
-    );
+   // Available options for admin dropdown menu.
+  $options = array('thumbnail', 'medium', 'large', 'full');
+   
+  // Current setting.
+  $current = get_option( 'add_media_buttons_field_1' );
      
-    // Current setting.
-    $current = get_option( 'add_media_buttons_field_1' );
+  // Build <select> element.
+  $html = '<select id="add_media_buttons_field_1" name="add_media_buttons_field_1">';
+ 
+  foreach ( $options as $value => $text )
+  {
+    $html .= '<option value="'. $value .'"';
+ 
+    // We make sure the current options selected.
+    if ( $value == $current ) $html .= ' selected="selected"';
+ 
+    $html .= '>'. $text .'</option>';
+  }
      
-    // Build <select> element.
-    $html = '<select id="add_media_buttons_field_1" name="add_media_buttons_field_1">';
+  $html .= '</select>';
  
-    foreach ( $options as $value => $text )
-    {
-        $html .= '<option value="'. $value .'"';
- 
-        // We make sure the current options selected.
-        if ( $value == $current ) $html .= ' selected="selected"';
- 
-        $html .= '>'. $text .'</option>';
-    }
-     
-    $html .= '</select>';
- 
-    echo( $html );  
+  echo( $html );  
 }
  
-
 
