@@ -1,20 +1,28 @@
 <?php
 /**
  * @package Add_Media_Buttons
- * @version 0.6
+ * @version 0.7
  */
 /*
 Plugin Name: Add Media Buttons
 Plugin URI: http://www.siebenlinden.org
 Description: This plugin adds two 'add media'-buttons (add image left/right) to the WordPress editor. It's purpose is the support of the authors of the Sieben Linden website with a convenient tool to insert custom style images into posts and articles.  
 Author: Holger Nassenstein, Felix Wolfsteller
-Version: 0.6
+Version: 0.7
 License: GPL2+
 */
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// globals:
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+$options = array(0, 'thumbnail', 'medium', 'large', 'full');
+// index; thumbnail sizes for admin dropdown menu
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Two additional add-media buttons for Tiny MCE:
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 
 function add_my_media_buttons(){
@@ -28,9 +36,18 @@ add_action('media_buttons', 'add_my_media_buttons', 15);
 
 
 function include_media_button_js_file(){
+  global $options;
   wp_enqueue_script('media_button', plugins_url( 'js/media_button.js',  __FILE__ ), array('jquery'), '1.0', true);
-  $current = get_option( 'add_media_buttons_field_1' );
-  wp_localize_script( 'media_button', 'AddMediaButtonParams', $current );
+  // get the index of the current selection in the admin menu: 
+  $options[0] = get_option( 'add_media_buttons_field_1' );
+  $json_str = json_encode($options);
+  // encode global array '$options' to json array
+  $params = array(
+    'php_arr' => $json_str,
+  );
+  // now pass '$params' to the enqueued js-script.
+  // In the js.script access to $json_str is possible via 'AddMediaButtonParams.php_arr'
+  wp_localize_script( 'media_button', 'AddMediaButtonParams', $params );
 }
 add_action('wp_enqueue_media', 'include_media_button_js_file');
 
@@ -132,22 +149,25 @@ function add_media_buttons_settings_section_1_callback() {
 /** Field 1 Input **/
 function add_media_buttons_field_1_input() {
    // Available options for admin dropdown menu.
-  $options = array('thumbnail', 'medium', 'large', 'full');
+  global $options;
    
   // Current setting.
-  $current = get_option( 'add_media_buttons_field_1' );
+  $options[0] = get_option( 'add_media_buttons_field_1' );
      
   // Build <select> element.
   $html = '<select id="add_media_buttons_field_1" name="add_media_buttons_field_1">';
  
-  foreach ( $options as $value => $text )
+  foreach ( $options as $key => $value )
   {
-    $html .= '<option value="'. $value .'"';
+    if ( $key == 0 )
+      continue;
+
+    $html .= '<option value="'. $key .'"';
  
     // We make sure the current options selected.
-    if ( $value == $current ) $html .= ' selected="selected"';
+    if ( $key == $options[0] ) $html .= ' selected="selected"';
  
-    $html .= '>'. $text .'</option>';
+    $html .= '>'. $value .'</option>';
   }
      
   $html .= '</select>';

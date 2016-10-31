@@ -6,21 +6,29 @@
 */
 
 function evalselection(selected,align) {
-  var options = new Array('thumbnail', 'medium', 'large', 'full');
-  var size = options[AddMediaButtonParams];
   // the one and only parameter from registering php-script: AddMediaButtonParams
+  // Defined in initializing PHP-script as follows:
+  // $options = array(0, 'thumbnail', 'medium', 'large', 'full');
+  // index; thumbnail sizes for admin dropdown menu
+
+  var php_arr = jQuery.parseJSON(AddMediaButtonParams.php_arr);
+  // decode json array
+  var index = php_arr[0];
+  // first element is the index of the chosen thumbnail size in admin menu 
+  var size = php_arr[index];
+  // var 'size' now contains the chosen thumbnail size (thumbnail, medium ...)
   var alt = selected.alt;
   if (0 === alt.length){
     alt = selected.name;
     alt = alt.toUpperCase();
   }
-
+  // Log JSON array to console:
+  // console.log(JSON.stringify(selected));
   return('<a href="' + selected.url + '"><img src="' +
     selected.sizes[size].url + '" alt="' + alt + '" width="' +
     selected.sizes[size].width + '" height="' +
     selected.sizes[size].height + '" class="' + align + ' size-' +
     size + ' wp-image-' + selected.id + '" /></a>');
-  // console.log(JSON.stringify(selected));
 }
 
 jQuery(function($) {
